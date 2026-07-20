@@ -22,7 +22,29 @@ connectDB();
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+
+
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  process.env.CLIENT_URL,  // Production frontend from Render env
+];
+console.log("CLIENT_URL:", process.env.CLIENT_URL);
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Allow requests with no Origin (Postman, curl, etc.)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // Routes
