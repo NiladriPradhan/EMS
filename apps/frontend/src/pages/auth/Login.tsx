@@ -148,7 +148,7 @@ const Login = () => {
                   color: theme.palette.primary.main,
                 }}
               >
-                EMS
+                EMS - system
               </Typography>
               <Typography
                 variant="body2"
