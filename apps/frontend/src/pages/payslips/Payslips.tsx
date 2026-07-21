@@ -35,8 +35,8 @@ const PayslipDialog = ({ id, onClose }: { id: number; onClose: () => void }) => 
         {data && (
           <Box>
             <Box sx={{ mb: 2 }} >
-              <Typography variant="h6" sx={{ fontWeight: 700 }} >{data.first_name} {data.last_name}</Typography>
-              <Typography variant="body2" color="textSecondary">{data.designation_name} — {data.department_name}</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 700 }} >{data.employee_id?.first_name} {data.employee_id?.last_name}</Typography>
+              <Typography variant="body2" color="textSecondary">{data.employee_id?.designation_id?.designation_name || "N/A"} — {data.employee_id?.department_id?.department_name || "N/A"}</Typography>
               <Typography variant="body2" color="textSecondary">
                 {MONTHS[(data.salary_month ?? 1) - 1]} {data.salary_year}
               </Typography>
@@ -115,7 +115,7 @@ const Payslips = () => {
               : data?.map((rec, idx) => (
                 <TableRow key={getSalaryRecordId(rec)} hover>
                   <TableCell>{idx + 1}</TableCell>
-                  <TableCell>{rec.employee_name || `EMP#${rec.employee_id}`}</TableCell>
+                  <TableCell>{rec.employee_id?.first_name ? `${rec.employee_id.first_name} ${rec.employee_id.last_name}` : rec.employee_name || `EMP#${rec.employee_id}`}</TableCell>
                   <TableCell>{MONTHS[rec.salary_month - 1]} {rec.salary_year}</TableCell>
                   <TableCell><Typography sx={{ fontWeight: 600 }} >{fmt(rec.net_salary)}</Typography></TableCell>
                   <TableCell>

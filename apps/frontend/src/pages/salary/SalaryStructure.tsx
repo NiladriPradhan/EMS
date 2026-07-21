@@ -56,7 +56,7 @@ const SalaryStructurePage = () => {
   const handleOpen = (item?: SalaryStructure) => {
     setEditTarget(item || null);
     reset(item ? {
-      employee_id: item.employee_id, basic_salary: item.basic_salary,
+      employee_id: item.employee_id?._id || item.employee_id, basic_salary: item.basic_salary,
       hra: item.hra, da: item.da, ta: item.ta,
       medical_allowance: item.medical_allowance, other_allowance: item.other_allowance,
       pf: item.pf, esi: item.esi, professional_tax: item.professional_tax,
@@ -66,7 +66,7 @@ const SalaryStructurePage = () => {
   };
   const handleClose = () => { setOpen(false); setEditTarget(null); reset(); };
   const onSubmit = (values: FormValues) => {
-    if (editTarget) updateMutation.mutate({ id: editTarget.salary_structure_id, data: values });
+    if (editTarget) updateMutation.mutate({ id: editTarget._id || editTarget.salary_structure_id!, data: values });
     else createMutation.mutate(values);
   };
 
@@ -83,7 +83,10 @@ const SalaryStructurePage = () => {
 
   // Filter logic
   const filteredData = data?.filter((item) => {
-    const employeeName = (item.employee_name || "").toLowerCase();
+    const empName = item.employee_id?.first_name 
+      ? `${item.employee_id.first_name} ${item.employee_id.last_name}` 
+      : item.employee_name || "";
+    const employeeName = empName.toLowerCase();
     const query = searchQuery.toLowerCase().trim();
     const matchesSearch = query === "" || employeeName.includes(query);
     const matchesStatus = statusFilter === "All" || item.status === statusFilter;
@@ -166,9 +169,9 @@ const SalaryStructurePage = () => {
               : filteredData?.map((s, idx) => {
                 const gross = s.basic_salary + s.hra + s.da + s.ta + s.medical_allowance + s.other_allowance;
                 return (
-                  <TableRow key={s.salary_structure_id} hover>
+                  <TableRow key={s._id || s.salary_structure_id} hover>
                     <TableCell>{idx + 1}</TableCell>
-                    <TableCell>{s.employee_name || `EMP#${s.employee_id}`}</TableCell>
+                    <TableCell>{s.employee_id?.first_name ? `${s.employee_id.first_name} ${s.employee_id.last_name}` : s.employee_name || `EMP#${s.employee_id}`}</TableCell>
                     <TableCell>{fmt(s.basic_salary)}</TableCell>
                     <TableCell>{fmt(gross)}</TableCell>
                     <TableCell>
@@ -248,7 +251,7 @@ const SalaryStructurePage = () => {
         <DialogContent><Typography>Delete this structure? This cannot be undone.</Typography></DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteTarget(null)}>Cancel</Button>
-          <Button color="error" variant="contained" onClick={() => deleteTarget && deleteMutation.mutate(deleteTarget.salary_structure_id)} disabled={deleteMutation.isPending}>
+          <Button color="error" variant="contained" onClick={() => deleteTarget && deleteMutation.mutate(deleteTarget._id || deleteTarget.salary_structure_id!)} disabled={deleteMutation.isPending}>
             {deleteMutation.isPending ? <CircularProgress size={20} /> : "Delete"}
           </Button>
         </DialogActions>

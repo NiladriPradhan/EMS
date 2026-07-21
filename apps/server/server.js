@@ -26,6 +26,7 @@ app.use(helmet());
 
 const allowedOrigins = [
   "http://localhost:5173", // Local development
+  "http://localhost:3000", ,
   process.env.CLIENT_URL,  // Production frontend from Render env
 ];
 console.log("CLIENT_URL:", process.env.CLIENT_URL);

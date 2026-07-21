@@ -2,8 +2,9 @@ import { axiosInstance } from "./axios";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 export interface SalaryStructure {
-  salary_structure_id: number;
-  employee_id: number;
+  _id?: string;
+  salary_structure_id?: number;
+  employee_id: any;
   employee_name?: string;
   basic_salary: number;
   hra: number;
@@ -57,9 +58,9 @@ export const salaryApi = {
   create: (data: CreateSalaryStructurePayload) =>
     axiosInstance.post<{ success: boolean; message: string }>("/salary-structures", data),
 
-  update: (id: number, data: Partial<CreateSalaryStructurePayload>) =>
+  update: (id: string | number, data: Partial<CreateSalaryStructurePayload>) =>
     axiosInstance.put<{ success: boolean; message: string }>(`/salary-structures/${id}`, data),
 
-  delete: (id: number) =>
+  delete: (id: string | number) =>
     axiosInstance.delete<{ success: boolean; message: string }>(`/salary-structures/${id}`),
 };

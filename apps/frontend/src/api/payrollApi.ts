@@ -1,12 +1,13 @@
 import { axiosInstance } from "./axios";
 
 // ── Types ──────────────────────────────────────────────────────────────────
-export type PaymentStatus = "Pending" | "Paid";
+export type PaymentStatus = "Unpaid" | "Paid" | "Pending";
 
 export interface SalaryRecord {
+  _id?: string;
   salary_id?: number;
   salary_record_id?: number;
-  employee_id: number;
+  employee_id: any;
   employee_name?: string;
   salary_month: number;
   salary_year: number;
@@ -53,13 +54,13 @@ export interface ApiItemResponse<T> {
   data: T;
 }
 
-export const getSalaryRecordId = (rec: SalaryRecord): number =>
-  rec.salary_id ?? rec.salary_record_id!;
+export const getSalaryRecordId = (rec: SalaryRecord): any =>
+  rec._id ?? rec.salary_id ?? rec.salary_record_id;
 
 // ── API ────────────────────────────────────────────────────────────────────
 export const payrollApi = {
   getPayslips: () =>
-    axiosInstance.get<ApiListResponse<SalaryRecord>>("/payslips"),
+    axiosInstance.get<ApiListResponse<SalaryRecord>>("/salaries/payslips"),
 
   getAll: () =>
     axiosInstance.get<ApiListResponse<SalaryRecord>>("/salaries"),
@@ -73,12 +74,12 @@ export const payrollApi = {
       data,
     ),
 
-  markAsPaid: (id: number) =>
+  markAsPaid: (id: string | number) =>
     axiosInstance.patch<{ success: boolean; message: string }>(`/salaries/${id}/pay`, {}),
 
-  delete: (id: number) =>
+  delete: (id: string | number) =>
     axiosInstance.delete<{ success: boolean; message: string }>(`/salaries/${id}`),
 
-  getPayslip: (id: number) =>
-    axiosInstance.get<ApiItemResponse<Payslip>>(`/payslips/${id}`),
+  getPayslip: (id: string | number) =>
+    axiosInstance.get<ApiItemResponse<Payslip>>(`/salaries/payslips/${id}`),
 };

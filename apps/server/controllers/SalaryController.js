@@ -91,7 +91,7 @@ const SalaryController = {
     } else {
       const employee = await Employee.findOne({ user_id: user.user_id });
       if (!employee) records = [];
-      else records = await SalaryRecord.find({ employee_id: employee._id });
+      else records = await SalaryRecord.find({ employee_id: employee._id }).populate('employee_id', 'first_name last_name');
     }
     return sendResponse(res, true, 'Payslips fetched successfully', records);
   },
@@ -99,7 +99,13 @@ const SalaryController = {
   payslip: async (req, res) => {
     const { id } = req.params;
     const payslip = await SalaryRecord.findById(id)
-      .populate('employee_id')
+      .populate({
+        path: 'employee_id',
+        populate: [
+          { path: 'department_id', select: 'department_name' },
+          { path: 'designation_id', select: 'designation_name' }
+        ]
+      })
       .populate('generated_by');
     if (!payslip) return sendResponse(res, false, 'Payslip not found', null, 404);
     const user = req.user;

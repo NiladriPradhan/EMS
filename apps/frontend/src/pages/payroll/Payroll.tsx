@@ -93,7 +93,7 @@ const Payroll = () => {
               : data?.map((rec, idx) => (
                   <TableRow key={getSalaryRecordId(rec)} hover>
                     <TableCell>{idx + 1}</TableCell>
-                    <TableCell>{rec.employee_name || `EMP#${rec.employee_id}`}</TableCell>
+                    <TableCell>{rec.employee_id?.first_name ? `${rec.employee_id.first_name} ${rec.employee_id.last_name}` : rec.employee_name || `EMP#${rec.employee_id}`}</TableCell>
                     <TableCell>{MONTHS[rec.salary_month - 1]} {rec.salary_year}</TableCell>
                     <TableCell>{fmt(rec.gross_salary)}</TableCell>
                     <TableCell>{fmt(rec.total_deductions)}</TableCell>
@@ -103,7 +103,7 @@ const Payroll = () => {
                         color={rec.payment_status === "Paid" ? "success" : "warning"} />
                     </TableCell>
                     <TableCell align="right">
-                      {rec.payment_status === "Pending" && hasPermission("payroll.pay") && (
+                      {rec.payment_status === "Unpaid" && hasPermission("payroll.pay") && (
                         <Tooltip title="Mark as Paid">
                           <IconButton size="small" color="success" onClick={() => payMutation.mutate(getSalaryRecordId(rec))}>
                             <CreditCard size={16} />
