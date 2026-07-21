@@ -28,9 +28,19 @@ interface LoginFormInputs {
 
 // Demo credentials with icons
 const demoUsers = [
-  { label: "Admin", email: "admin@gmail.com", password: "Admin@123", icon: Shield },
+  {
+    label: "Admin",
+    email: "admin@gmail.com",
+    password: "Admin@123",
+    icon: Shield,
+  },
   { label: "HR", email: "hr@example.com", password: "Hr@123", icon: Users },
-  { label: "Employee", email: "employee@example.com", password: "Employee@123", icon: User },
+  {
+    label: "Employee",
+    email: "employee@example.com",
+    password: "Employee@123",
+    icon: User,
+  },
 ];
 
 const Login = () => {
@@ -50,7 +60,7 @@ const Login = () => {
     defaultValues: {
       email: "",
       password: "",
-    }
+    },
   });
 
   const handleFillDemo = (email: string, pass: string) => {
@@ -80,7 +90,7 @@ const Login = () => {
         justifyContent: "center",
         background: `linear-gradient(145deg, ${alpha(theme.palette.primary.main, 0.03)} 0%, ${alpha(
           theme.palette.primary.light,
-          0.08
+          0.08,
         )} 100%)`,
         p: 2,
         position: "relative",
@@ -109,7 +119,16 @@ const Login = () => {
         },
       }}
     >
-      <Box sx={{ width: "100%", maxWidth: 500, zIndex: 1, display: "flex", flexDirection: "column", my: 4 }}>
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 500,
+          zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          my: 4,
+        }}
+      >
         <Card
           sx={{
             width: "100%",
@@ -214,12 +233,21 @@ const Login = () => {
                     sx={{
                       "& .MuiOutlinedInput-root": {
                         borderRadius: 0,
-                        backgroundColor: alpha(theme.palette.background.default, 0.3),
+                        backgroundColor: alpha(
+                          theme.palette.background.default,
+                          0.3,
+                        ),
                         "&:hover": {
-                          backgroundColor: alpha(theme.palette.background.default, 0.5),
+                          backgroundColor: alpha(
+                            theme.palette.background.default,
+                            0.5,
+                          ),
                         },
                         "&.Mui-focused": {
-                          backgroundColor: alpha(theme.palette.background.default, 0.5),
+                          backgroundColor: alpha(
+                            theme.palette.background.default,
+                            0.5,
+                          ),
                         },
                       },
                     }}
@@ -250,12 +278,21 @@ const Login = () => {
                     sx={{
                       "& .MuiOutlinedInput-root": {
                         borderRadius: 0,
-                        backgroundColor: alpha(theme.palette.background.default, 0.3),
+                        backgroundColor: alpha(
+                          theme.palette.background.default,
+                          0.3,
+                        ),
                         "&:hover": {
-                          backgroundColor: alpha(theme.palette.background.default, 0.5),
+                          backgroundColor: alpha(
+                            theme.palette.background.default,
+                            0.5,
+                          ),
                         },
                         "&.Mui-focused": {
-                          backgroundColor: alpha(theme.palette.background.default, 0.5),
+                          backgroundColor: alpha(
+                            theme.palette.background.default,
+                            0.5,
+                          ),
                         },
                       },
                     }}
@@ -355,9 +392,12 @@ const Login = () => {
               <Box sx={{ mt: 1, mb: 2 }}>
                 <Typography
                   variant="caption"
-                  color="textSecondary"
-                  display="block"
-                  sx={{ textAlign: "center", mb: 1.5 }}
+                  sx={{
+                    textAlign: "center",
+                    mb: 1.5,
+                    color: "textSecondary",
+                    display: "block",
+                  }}
                 >
                   Quick Demo Access
                 </Typography>
@@ -376,7 +416,9 @@ const Login = () => {
                         key={user.label}
                         variant="outlined"
                         size="small"
-                        onClick={() => handleFillDemo(user.email, user.password)}
+                        onClick={() =>
+                          handleFillDemo(user.email, user.password)
+                        }
                         startIcon={<IconComponent size={18} />}
                         sx={{
                           borderRadius: 0,
@@ -385,10 +427,13 @@ const Login = () => {
                           minWidth: 80,
                           borderColor: alpha(theme.palette.primary.main, 0.3),
                           // color: theme.palette.text.primary,
-                          color:"violet",
+                          color: "violet",
                           "&:hover": {
                             borderColor: theme.palette.primary.main,
-                            backgroundColor: alpha(theme.palette.primary.main, 0.04),
+                            backgroundColor: alpha(
+                              theme.palette.primary.main,
+                              0.04,
+                            ),
                           },
                         }}
                       >
